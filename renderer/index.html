@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoodByeFirewall</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-window" id="appWindow">
+    
+    <div class="apple-mesh-backdrop" aria-hidden="true">
+      <div class="caustic-orb orb-1"></div>
+      <div class="caustic-orb orb-2"></div>
+      <div class="caustic-orb orb-3"></div>
+    </div>
+    
+    <!-- Titlebar -->
+    <header class="mac-titlebar">
+      <div class="traffic-lights">
+        <button id="btnClose" class="traffic-dot dot-close" title="Masquer dans les icônes cachées" aria-label="Masquer">
+          <span class="dot-icon">✕</span>
+        </button>
+        <button id="btnMin" class="traffic-dot dot-min" title="Réduire" aria-label="Réduire">
+          <span class="dot-icon">–</span>
+        </button>
+        <span class="traffic-dot dot-zoom" aria-hidden="true"></span>
+      </div>
+
+      <div class="titlebar-center">
+        <div class="brand-pill">
+          <img src="../assets/logo.png" alt="GoodByeFirewall" class="brand-logo-img">
+          <span class="brand-title">GoodBye</span><span class="brand-accent">Firewall</span>
+        </div>
+      </div>
+
+      <div class="titlebar-right">
+        <!-- Theme toggle -->
+        <button id="btnTheme" class="theme-toggle-btn" title="Changer de thème" aria-label="Changer de thème">
+          <svg id="iconSun" class="theme-icon icon-sun" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg id="iconMoon" class="theme-icon icon-moon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <!-- Language selector -->
+        <div class="custom-select-container lang-custom-container" id="containerLang">
+          <button type="button" class="custom-select-trigger lang-custom-trigger" id="triggerLang" aria-haspopup="listbox" aria-expanded="false">
+            <span class="trigger-label" id="labelLang">FR</span>
+            <span class="select-chevron">▾</span>
+          </button>
+          <div class="custom-select-menu lang-custom-menu" id="menuLang" role="listbox">
+            <div class="custom-option selected" data-value="fr">Français (FR)</div>
+            <div class="custom-option" data-value="en">English (EN)</div>
+          </div>
+          <select id="langSelect" class="sr-only" aria-label="Langue">
+            <option value="fr" selected>FR</option>
+            <option value="en">EN</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="scroll-area">
+      
+      <!-- Hero Power Button Stage -->
+      <section class="hero-stage glass-surface">
+        <canvas id="waveCanvas" class="wave-canvas" width="440" height="240"></canvas>
+
+        <div class="hero-centerpiece">
+          <div class="power-touch-area" id="powerArea">
+            <div class="specular-ring" id="powerRing">
+              <button id="btnPower" class="tactile-power-btn" aria-label="Activer la protection">
+                <svg id="powerIcon" viewBox="0 0 24 24" class="tactile-svg">
+                  <path d="M12 2v9M6.343 6.343A8 8 0 1 0 17.657 6.343" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="live-status-container">
+            <div id="statusBadge" class="status-chip disconnected">
+              <span class="pulse-indicator"></span>
+              <span id="statusText">DÉCONNECTÉ / INACTIF</span>
+            </div>
+
+            <div class="ping-chip" id="pingBadge" title="Latence réseau en direct">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              <span id="pingValue">-- ms</span>
+            </div>
+          </div>
+
+          <p id="statusHint" class="status-caption">Cliquez pour activer le contournement DPI et pare-feu</p>
+        </div>
+      </section>
+
+      <!-- Settings Grid -->
+      <section class="bento-grid">
+
+        <!-- DPI Level Preset -->
+        <article class="bento-card bento-half glass-surface bento-equal">
+          <div class="bento-card-header">
+            <div class="squircle-badge badge-blue">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
+              </svg>
+            </div>
+            <div class="bento-titles">
+              <h3 class="bento-title" data-i18n="cardDpiTitle">NIVEAU DPI</h3>
+              <span class="bento-subtitle" id="presetSubtitle">Niveau 5 (Agressif)</span>
+            </div>
+          </div>
+
+          <div class="custom-select-container" id="containerPreset">
+            <button type="button" class="custom-select-trigger" id="triggerPreset" aria-haspopup="listbox" aria-expanded="false">
+              <span class="trigger-label" id="labelPreset">Niveau 5 (Agressif)</span>
+              <span class="select-chevron">▾</span>
+            </button>
+            <div class="custom-select-menu" id="menuPreset" role="listbox">
+              <div class="custom-option selected" data-value="-5">Niveau 5 (Agressif)</div>
+              <div class="custom-option" data-value="-1">Niveau 1 (Standard)</div>
+              <div class="custom-option" data-value="-2">Niveau 2 (Quick ACK)</div>
+              <div class="custom-option" data-value="-3">Niveau 3 (Sans fragmentation)</div>
+              <div class="custom-option" data-value="-4">Niveau 4 (Ultra Rapide)</div>
+              <div class="custom-option" data-value="-6">Niveau 6 (Avancé)</div>
+              <div class="custom-option" data-value="-7">Niveau 7 (Avancé)</div>
+              <div class="custom-option" data-value="-8">Niveau 8 (Avancé)</div>
+              <div class="custom-option" data-value="-9">Niveau 9 (Avancé)</div>
+              <div class="custom-option" data-value="custom">Arguments Libres...</div>
+            </div>
+            <select id="selectPreset" class="sr-only">
+              <option value="-5" selected>Niveau 5 (Agressif)</option>
+              <option value="-1">Niveau 1 (Standard)</option>
+              <option value="-2">Niveau 2 (Quick ACK)</option>
+              <option value="-3">Niveau 3 (Sans fragmentation)</option>
+              <option value="-4">Niveau 4 (Ultra Rapide)</option>
+              <option value="-6">Niveau 6 (Avancé)</option>
+              <option value="-7">Niveau 7 (Avancé)</option>
+              <option value="-8">Niveau 8 (Avancé)</option>
+              <option value="-9">Niveau 9 (Avancé)</option>
+              <option value="custom">Arguments Libres...</option>
+            </select>
+          </div>
+        </article>
+
+        <!-- Windows Service Mode Switch -->
+        <article class="bento-card bento-half glass-surface bento-equal">
+          <div class="bento-card-header">
+            <div class="squircle-badge badge-indigo">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+              </svg>
+            </div>
+            <div class="bento-titles">
+              <h3 class="bento-title" data-i18n="cardServiceTitle">SERVICE AUTO</h3>
+              <span class="bento-subtitle" id="serviceSubtitle">Session Rapide</span>
+            </div>
+          </div>
+
+          <div class="ios-switch-wrapper">
+            <label class="ios-toggle-label" for="iosServiceToggle">
+              <span class="switch-state-text" id="switchStateText">Désactivé</span>
+              <input type="checkbox" id="iosServiceToggle" class="ios-toggle-input">
+              <span class="ios-toggle-slider">
+                <span class="ios-toggle-knob"></span>
+              </span>
+            </label>
+          </div>
+
+          <div class="sr-only" aria-hidden="true">
+            <button id="btnModeRunOnce" type="button">Session Rapide</button>
+            <button id="btnModeService" type="button">Service Windows</button>
+          </div>
+        </article>
+
+        <!-- Secure DNS Resolver -->
+        <article class="bento-card bento-wide glass-surface">
+          <div class="bento-card-header">
+            <div class="squircle-badge badge-purple">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 17.93V17a1 1 0 00-1-1H9v-2h2a1 1 0 001-1V9a1 1 0 00-1-1H7.07A8.006 8.006 0 0112 4.07v1.93a1 1 0 001 1h2a1 1 0 001-1V4.07A8.006 8.006 0 0119.93 12h-1.93a1 1 0 00-1 1v2a1 1 0 001 1h1.93A8.006 8.006 0 0113 19.93z"/>
+              </svg>
+            </div>
+            <div class="bento-titles">
+              <h3 class="bento-title" data-i18n="cardDnsTitle">SERVEUR DNS</h3>
+              <span class="bento-subtitle" data-i18n="cardDnsSubtitle">Anti-censure résolveur</span>
+            </div>
+          </div>
+
+          <div class="custom-select-container" id="containerDNS">
+            <button type="button" class="custom-select-trigger" id="triggerDNS" aria-haspopup="listbox" aria-expanded="false">
+              <span class="trigger-label" id="labelDNS">Cloudflare (1.1.1.1)</span>
+              <span class="select-chevron">▾</span>
+            </button>
+            <div class="custom-select-menu" id="menuDNS" role="listbox">
+              <div class="custom-option selected" data-value="cloudflare">Cloudflare (1.1.1.1)</div>
+              <div class="custom-option" data-value="none">DNS Système (Par défaut)</div>
+              <div class="custom-option" data-value="google">Google DNS (8.8.8.8)</div>
+              <div class="custom-option" data-value="quad9">Quad9 (9.9.9.9)</div>
+              <div class="custom-option" data-value="yandex">Yandex (Port 1253)</div>
+              <div class="custom-option" data-value="custom">Personnalisé...</div>
+            </div>
+            <select id="selectDNS" class="sr-only">
+              <option value="cloudflare" selected>Cloudflare (1.1.1.1)</option>
+              <option value="none">DNS Système (Par défaut)</option>
+              <option value="google">Google DNS (8.8.8.8)</option>
+              <option value="quad9">Quad9 (9.9.9.9)</option>
+              <option value="yandex">Yandex (Port 1253)</option>
+              <option value="custom">Personnalisé...</option>
+            </select>
+          </div>
+
+          <div id="customDnsRow" class="custom-dns-expand hidden">
+            <div class="dns-inputs-flex">
+              <input type="text" id="inputCustomIp" class="ios-input ip-field" placeholder="1.1.1.1" value="1.1.1.1">
+              <input type="text" id="inputCustomPort" class="ios-input port-field" placeholder="53" value="53">
+            </div>
+          </div>
+        </article>
+
+        <!-- Advanced Settings Drawer -->
+        <article class="bento-card bento-wide glass-surface advanced-drawer-card">
+          <div class="drawer-header" id="advancedToggle" role="button" tabindex="0">
+            <div class="drawer-left">
+              <div class="squircle-badge badge-orange">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                  <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+              </div>
+              <div class="bento-titles">
+                <h3 class="bento-title" data-i18n="cardAdvancedSettingsTitle">PARAMÈTRES AVANCÉS</h3>
+                <span class="bento-subtitle" data-i18n="subAdvancedSettings">Tromperie DPI (TTL) &amp; Options</span>
+              </div>
+            </div>
+            <div class="drawer-arrow-pill">
+              <span class="advanced-arrow">▾</span>
+            </div>
+          </div>
+
+          <div id="advancedBody" class="drawer-expandable">
+            <div class="drawer-content-inner">
+              <div class="advanced-setting-group">
+                <label for="triggerTTL" class="mini-label" data-i18n="lblTTL">TROMPERIE DPI (TTL / FAUX PAQUETS)</label>
+                <div class="custom-select-container" id="containerTTL">
+                  <button type="button" class="custom-select-trigger" id="triggerTTL" aria-haspopup="listbox" aria-expanded="false">
+                    <span class="trigger-label" id="labelTTL">Désactivé (Recommandé)</span>
+                    <span class="select-chevron">▾</span>
+                  </button>
+                  <div class="custom-select-menu" id="menuTTL" role="listbox">
+                    <div class="custom-option selected" data-value="none">Désactivé (Recommandé)</div>
+                    <div class="custom-option" data-value="--auto-ttl">--auto-ttl (Calcul Auto)</div>
+                    <div class="custom-option" data-value="--set-ttl 5">--set-ttl 5</div>
+                    <div class="custom-option" data-value="--set-ttl 4">--set-ttl 4</div>
+                    <div class="custom-option" data-value="--set-ttl 3">--set-ttl 3</div>
+                    <div class="custom-option" data-value="--set-ttl 6">--set-ttl 6</div>
+                  </div>
+                  <select id="selectTTL" class="sr-only">
+                    <option value="none" selected>Désactivé (Recommandé)</option>
+                    <option value="--auto-ttl">--auto-ttl (Calcul Auto)</option>
+                    <option value="--set-ttl 5">--set-ttl 5</option>
+                    <option value="--set-ttl 4">--set-ttl 4</option>
+                    <option value="--set-ttl 3">--set-ttl 3</option>
+                    <option value="--set-ttl 6">--set-ttl 6</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="advanced-setting-group">
+                <label for="inputExtraArgs" class="mini-label" data-i18n="lblExtraArgs">Arguments Personnalisés Libres</label>
+                <input type="text" id="inputExtraArgs" class="ios-input" placeholder="ex: -a -p --blacklist list.txt">
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Live Telemetry Console -->
+        <article class="bento-card bento-wide glass-surface terminal-drawer-card expanded">
+          <div class="drawer-header" id="terminalToggle" role="button" tabindex="0">
+            <div class="drawer-left">
+              <div class="squircle-badge badge-teal">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                  <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                </svg>
+              </div>
+              <div class="bento-titles">
+                <h3 class="bento-title" data-i18n="cardAdvancedTitle">CONSOLE D'INSPECTION</h3>
+                <span class="bento-subtitle" data-i18n="subInspector">Flux de télémétrie en direct</span>
+              </div>
+            </div>
+            <div class="drawer-arrow-pill">
+              <span class="terminal-arrow">▾</span>
+            </div>
+          </div>
+
+          <div id="terminalBody" class="drawer-expandable">
+            <div class="drawer-content-inner">
+              <div class="xcode-console-panel">
+                <div class="console-mac-bar">
+                  <div class="mac-dots">
+                    <span class="mac-dot red"></span>
+                    <span class="mac-dot yellow"></span>
+                    <span class="mac-dot green"></span>
+                  </div>
+                  <span class="console-app-tag">goodbyedpi.exe — inspector stream</span>
+                </div>
+                <pre id="terminalLogs" class="console-log-flow">$ goodbyedpi.exe -5 --set-ttl 5 --dns-addr 77.88.8.8 --dns-port 1253</pre>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- App Status Footer -->
+      <footer class="app-status-bar">
+        <div class="driver-status-cluster">
+          <span class="live-dot-pulse"></span>
+          <span id="driverStatusText">Moteur WinDivert : Prêt</span>
+        </div>
+
+        <button id="btnUninstallService" class="apple-clean-danger-btn" type="button">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+          </svg>
+          <span data-i18n="btnUninstall">Désinstaller Service</span>
+        </button>
+      </footer>
+
+    </main>
+
+    <!-- Administrator Permission Modal -->
+    <div id="modalAdminPermission" class="admin-modal-overlay" style="display: none;" aria-modal="true" role="dialog">
+      <div class="admin-modal-card">
+        <div class="admin-modal-badge">
+          <div class="admin-shield-halo"></div>
+          <svg class="admin-shield-icon" viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v4"/>
+            <path d="M12 16h.01"/>
+          </svg>
+        </div>
+
+        <h2 class="admin-modal-title" id="adminModalTitle" data-i18n="adminModalTitle">Autorisation Administrateur</h2>
+        
+        <p class="admin-modal-desc" id="adminModalDesc" data-i18n="adminModalDesc">
+          Pour activer le contournement DPI et charger le pilote réseau sécurisé <strong>WinDivert</strong>, GoodByeFirewall doit être exécuté avec les privilèges Administrateur.
+        </p>
+
+        <div class="admin-modal-note">
+          <svg class="note-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <span id="adminModalNote" data-i18n="adminModalNote">Cette autorisation n'est demandée <strong>qu'une seule fois</strong>. Les prochains lancements se feront directement sans fenêtre UAC.</span>
+        </div>
+
+        <div id="adminModalError" class="admin-modal-error" style="display: none;"></div>
+
+        <div class="admin-modal-actions">
+          <button id="btnAdminClose" class="admin-btn-secondary" type="button">
+            <span id="adminBtnCloseText" data-i18n="adminBtnClose">Fermer</span>
+          </button>
+          <button id="btnAdminAuthorize" class="admin-btn-primary" type="button">
+            <span id="btnAdminAuthorizeText" data-i18n="adminBtnAuthorize">Autoriser (UAC)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

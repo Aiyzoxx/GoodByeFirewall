@@ -1,0 +1,1545 @@
+/* ==========================================================================
+   GoodByeFirewall - Stylesheet
+   ========================================================================== */
+
+:root {
+  /* Apple Light Canvas & Glass Tokens */
+  --apple-bg: #f4f5f9;
+  --glass-window: rgba(255, 255, 255, 0.78);
+  --glass-card: rgba(255, 255, 255, 0.80);
+  --glass-card-hover: rgba(255, 255, 255, 0.94);
+  --glass-popover: rgba(255, 255, 255, 0.94);
+  --glass-tile: rgba(255, 255, 255, 0.65);
+  --glass-tile-active: rgba(0, 113, 227, 0.08);
+  --glass-input-bg: rgba(255, 255, 255, 0.9);
+
+  /* Typography Neutrals (Light) */
+  --text-primary: #1d1d1f;
+  --text-secondary: #86868b;
+  --text-tertiary: #a1a1a6;
+  --text-muted: #c7c7cc;
+
+  /* Apple System Accents */
+  --apple-blue: #0071e3;
+  --apple-blue-hover: #0077ed;
+  --apple-blue-soft: rgba(0, 113, 227, 0.12);
+  --apple-green: #34c759;
+  --apple-green-glow: rgba(52, 199, 89, 0.35);
+  --apple-green-soft: rgba(52, 199, 89, 0.14);
+  --apple-red: #ff3b30;
+  --apple-red-soft: rgba(255, 59, 48, 0.12);
+  --apple-orange: #ff9500;
+  --apple-purple: #af52de;
+  --apple-indigo: #5856d6;
+  --apple-teal: #30b0c7;
+
+  /* Specular & Elevation Highlights */
+  --specular-border: rgba(255, 255, 255, 0.95);
+  --border-subtle: rgba(0, 0, 0, 0.07);
+  --border-focused: rgba(0, 113, 227, 0.4);
+  --divider-line: rgba(0, 0, 0, 0.06);
+  --window-border: rgba(0, 0, 0, 0.28);
+  --window-bevel: rgba(255, 255, 255, 0.85);
+  --shadow-window: 0 32px 64px -16px rgba(0, 0, 0, 0.14), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-popover: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-float: 0 12px 28px -6px rgba(0, 0, 0, 0.09);
+
+  /* Power Ring Colors */
+  --ring-gradient: linear-gradient(150deg, #ffffff 0%, #edf1f6 100%);
+  --btn-power-idle: linear-gradient(155deg, #ffffff 0%, #f0f3f7 100%);
+
+  /* Apple Radii */
+  --radius-window: 24px;
+  --radius-card: 18px;
+  --radius-squircle: 9px;
+  --radius-pill: 9999px;
+  --radius-control: 10px;
+
+  /* Spring Physics Easings */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --anim-fast: 180ms var(--ease-apple);
+  --anim-bounce: 350ms var(--ease-spring);
+  --anim-smooth: 280ms var(--ease-smooth);
+}
+
+/* ==========================================================================
+   Apple Dark Mode System (macOS Sonoma Obsidian Theme)
+   ========================================================================== */
+body.dark-theme {
+  --apple-bg: #090d16;
+  --glass-window: rgba(12, 17, 28, 0.85);
+  --glass-card: rgba(18, 25, 42, 0.78);
+  --glass-card-hover: rgba(26, 36, 60, 0.88);
+  --glass-popover: rgba(22, 30, 50, 0.95);
+  --glass-tile: rgba(24, 34, 56, 0.7);
+  --glass-tile-active: rgba(0, 113, 227, 0.25);
+  --glass-input-bg: rgba(24, 32, 52, 0.9);
+
+  /* Typography Neutrals (Dark) */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-muted: #475569;
+
+  /* Accents adjusted for dark contrast */
+  --apple-blue: #2997ff;
+  --apple-blue-hover: #47a6ff;
+  --apple-blue-soft: rgba(41, 151, 255, 0.20);
+  --apple-green: #30d158;
+  --apple-green-glow: rgba(48, 209, 88, 0.4);
+  --apple-green-soft: rgba(48, 209, 88, 0.18);
+  --apple-red: #ff453a;
+  --apple-red-soft: rgba(255, 69, 58, 0.18);
+  --apple-orange: #ff9f0a;
+  --apple-purple: #bf5af2;
+  --apple-indigo: #6e6cf6;
+  --apple-teal: #40c8e0;
+
+  /* Borders & Shadows */
+  --specular-border: rgba(255, 255, 255, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focused: rgba(41, 151, 255, 0.5);
+  --divider-line: rgba(255, 255, 255, 0.07);
+  --window-border: rgba(255, 255, 255, 0.28);
+  --window-bevel: rgba(255, 255, 255, 0.12);
+  --shadow-window: 0 32px 64px -16px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.10);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.28), 0 1px 2px rgba(255, 255, 255, 0.04);
+  --shadow-popover: 0 18px 45px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-float: 0 12px 30px -4px rgba(0, 0, 0, 0.4);
+
+  /* Power Ring Dark */
+  --ring-gradient: linear-gradient(150deg, #1c263d 0%, #121929 100%);
+  --btn-power-idle: linear-gradient(155deg, #222e49 0%, #172033 100%);
+}
+
+/* ==========================================================================
+   Base Reset & Body Setup
+   ========================================================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "SF Pro Text", "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: color var(--anim-smooth);
+}
+
+/* ==========================================================================
+   Ambient Caustic Mesh Backdrop
+   ========================================================================== */
+.apple-mesh-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: var(--radius-window);
+  background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 50%, #f1f5f9 100%);
+  transition: background 0.5s var(--ease-smooth);
+}
+
+body.dark-theme .apple-mesh-backdrop {
+  background: linear-gradient(135deg, #090d16 0%, #0c121e 50%, #0e1524 100%);
+}
+
+.caustic-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  transition: opacity 0.8s var(--ease-apple), transform 1.2s var(--ease-apple);
+}
+
+.orb-1 {
+  width: 320px;
+  height: 320px;
+  top: -80px;
+  left: -40px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.45), transparent 70%);
+  animation: floatOrb1 22s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  width: 340px;
+  height: 340px;
+  bottom: -60px;
+  right: -60px;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.35), transparent 70%);
+  animation: floatOrb2 26s ease-in-out infinite alternate;
+}
+
+.orb-3 {
+  width: 300px;
+  height: 300px;
+  top: 30%;
+  left: 15%;
+  background: radial-gradient(circle, rgba(52, 199, 89, 0.45), transparent 70%);
+  opacity: 0;
+  transform: scale(0.85);
+}
+
+body.dark-theme .orb-1 {
+  background: radial-gradient(circle, rgba(3, 105, 161, 0.45), transparent 70%);
+}
+
+body.dark-theme .orb-2 {
+  background: radial-gradient(circle, rgba(67, 56, 202, 0.4), transparent 70%);
+}
+
+body.shield-active .orb-3 {
+  opacity: 0.6;
+  transform: scale(1.15);
+}
+
+@keyframes floatOrb1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(35px, 45px) scale(1.06); }
+}
+
+@keyframes floatOrb2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-40px, -35px) scale(0.96); }
+}
+
+/* ==========================================================================
+   Frameless macOS Glass App Window with Perfect Windows 11 Rounded Corners
+   ========================================================================== */
+.app-window {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  background: transparent;
+  border-radius: var(--radius-window);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  clip-path: inset(0 round var(--radius-window));
+  transition: border-color var(--anim-smooth), box-shadow var(--anim-smooth);
+}
+
+.app-window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-window);
+  border: 4px solid var(--window-border);
+  box-shadow: inset 0 0 0 1px var(--window-bevel);
+  pointer-events: none;
+  z-index: 9999;
+  transition: border-color var(--anim-smooth), box-shadow var(--anim-smooth);
+}
+
+/* ==========================================================================
+   macOS Titlebar (Traffic Lights, Brand & Controls)
+   ========================================================================== */
+.mac-titlebar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 4px 16px;
+  -webkit-app-region: drag;
+  border-bottom: none;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+}
+
+.mac-titlebar:has(.open) {
+  z-index: 1500;
+}
+
+.traffic-lights {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  -webkit-app-region: no-drag;
+}
+
+.traffic-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 0.5px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.traffic-dot:hover {
+  filter: brightness(0.92);
+}
+
+.traffic-dot:active {
+  transform: scale(0.92);
+}
+
+.dot-close {
+  background: #ff5f57;
+  border-color: rgba(224, 68, 62, 0.4);
+}
+
+.dot-min {
+  background: #febc2e;
+  border-color: rgba(222, 161, 35, 0.4);
+}
+
+.dot-zoom {
+  background: #e0e0e4;
+  border-color: rgba(0, 0, 0, 0.08);
+  cursor: default;
+}
+
+body.dark-theme .dot-zoom {
+  background: #334155;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dot-icon {
+  font-size: 8px;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.traffic-lights:hover .dot-icon {
+  opacity: 0.85;
+}
+
+.titlebar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.brand-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.brand-logo-img {
+  height: 20px;
+  width: auto;
+  max-width: 28px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.15));
+}
+
+.brand-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #394860;
+  transition: color var(--anim-smooth);
+}
+
+body.dark-theme .brand-title {
+  color: #8fa6c8;
+}
+
+.brand-accent {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--apple-blue);
+  margin-left: 2px;
+}
+
+.titlebar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+  position: relative;
+  z-index: 10;
+}
+
+/* Light / Dark Theme Button */
+.theme-toggle-btn {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  max-width: 26px;
+  max-height: 26px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  transition: all var(--anim-fast);
+}
+
+body.dark-theme .theme-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fbbf24;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-primary);
+  transform: rotate(20deg) scale(1.08);
+}
+
+body.dark-theme .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fef08a;
+}
+
+.theme-icon {
+  transition: transform var(--anim-fast);
+}
+
+/* Custom Animated Language Dropdown */
+.lang-custom-container {
+  position: relative;
+  width: auto;
+  min-width: 56px;
+}
+
+.lang-custom-trigger {
+  padding: 3.5px 9px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-subtle);
+  gap: 5px;
+  min-width: 56px;
+  cursor: pointer;
+  transition: all var(--anim-fast);
+}
+
+body.dark-theme .lang-custom-trigger {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.lang-custom-trigger:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 113, 227, 0.35);
+  color: var(--apple-blue);
+}
+
+body.dark-theme .lang-custom-trigger:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(41, 151, 255, 0.4);
+  color: var(--apple-blue);
+}
+
+.lang-custom-menu {
+  left: auto !important;
+  right: 0 !important;
+  top: calc(100% + 6px) !important;
+  bottom: auto !important;
+  min-width: 140px;
+  width: max-content;
+  transform: translateY(-8px) scale(0.96);
+  z-index: 2000;
+  -webkit-app-region: no-drag;
+  pointer-events: auto;
+}
+
+.lang-custom-container.open .lang-custom-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* ==========================================================================
+   Scrollable Workspace & Bento Grid (Fixed Viewport, No Window Slide)
+   ========================================================================== */
+.scroll-area {
+  flex: 1;
+  min-height: 0;
+  max-height: calc(100vh - 44px);
+  padding: 10px 15px 15px;
+  overflow: hidden !important; /* Zero sliding / scrolling up and down */
+  overscroll-behavior: none !important;
+  touch-action: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 7px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+/* Glass Card Surface */
+.glass-surface {
+  background: var(--glass-card);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--specular-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: box-shadow var(--anim-smooth), border-color var(--anim-smooth), transform var(--anim-smooth), background var(--anim-smooth);
+}
+
+/* ==========================================================================
+   HERO STAGE: Wave Canvas & Elastic Tactile Power Button
+   ========================================================================== */
+.hero-stage {
+  padding: 11px 14px 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  min-height: unset;
+  flex-shrink: 0;
+}
+
+.wave-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+}
+
+.hero-centerpiece {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.power-touch-area {
+  position: relative;
+  width: 98px;
+  height: 98px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.specular-ring {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--ring-gradient);
+  border: 1.5px solid var(--border-subtle);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07), inset 0 2px 3px rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--anim-bounce);
+}
+
+body.shield-active .specular-ring {
+  border-color: rgba(52, 199, 89, 0.5);
+  box-shadow: 0 0 0 7px var(--apple-green-soft), 0 14px 32px rgba(52, 199, 89, 0.4);
+  animation: breatheRing 3s ease-in-out infinite alternate;
+}
+
+@keyframes breatheRing {
+  0% { box-shadow: 0 0 0 6px var(--apple-green-soft), 0 12px 28px rgba(52, 199, 89, 0.32); }
+  100% { box-shadow: 0 0 0 9px rgba(52, 199, 89, 0.18), 0 16px 38px rgba(52, 199, 89, 0.48); }
+}
+
+.tactile-power-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--btn-power-idle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07), inset 0 1.5px 3px rgba(255, 255, 255, 0.7);
+  transition: all var(--anim-bounce);
+}
+
+.tactile-power-btn:hover {
+  color: var(--apple-blue);
+  transform: scale(1.04);
+  box-shadow: 0 8px 22px rgba(0, 113, 227, 0.25), inset 0 1.5px 3px rgba(255, 255, 255, 0.7);
+}
+
+.tactile-power-btn:active {
+  transform: scale(0.93);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.shield-active .tactile-power-btn {
+  background: linear-gradient(145deg, var(--apple-green) 0%, #248a3d 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(52, 199, 89, 0.52), inset 0 1.5px 3px rgba(255, 255, 255, 0.5);
+}
+
+.tactile-svg {
+  width: 32px;
+  height: 32px;
+  transition: transform var(--anim-bounce), filter var(--anim-fast);
+}
+
+body.shield-active .tactile-svg {
+  transform: scale(1.06);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+}
+
+.live-status-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 4px;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3.5px 11px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: all var(--anim-smooth);
+}
+
+.status-chip.disconnected {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+body.dark-theme .status-chip.disconnected {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.status-chip.connected {
+  background: var(--apple-green-soft);
+  color: var(--apple-green);
+  border: 1px solid rgba(52, 199, 89, 0.35);
+}
+
+.pulse-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+  transition: background var(--anim-smooth);
+}
+
+.status-chip.connected .pulse-indicator {
+  background: var(--apple-green);
+  box-shadow: 0 0 8px var(--apple-green);
+  animation: pulseDot 1.8s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.7; }
+}
+
+.ping-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--glass-card);
+  border: 1px solid var(--border-subtle);
+  padding: 3.5px 9px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.status-caption {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0;
+}
+
+/* ==========================================================================
+   BENTO GRID ARCHITECTURE (Symmetrical 2x2 + Wide Drawer)
+   ========================================================================== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  width: 100%;
+}
+
+.bento-card {
+  padding: 9px 13px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bento-wide {
+  grid-column: span 2;
+}
+
+.bento-half {
+  grid-column: span 1;
+  min-width: 0;
+}
+
+/* Stabilized Equal Heights for Row 1 & Row 2 */
+.bento-equal {
+  height: 94px;
+  min-height: 94px;
+  max-height: 94px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.bento-card:hover {
+  box-shadow: var(--shadow-float);
+  border-color: rgba(255, 255, 255, 1);
+}
+
+body.dark-theme .bento-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.bento-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.squircle-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.badge-blue { background: linear-gradient(135deg, var(--apple-blue), #0056b3); }
+.badge-indigo { background: linear-gradient(135deg, var(--apple-indigo), #3f3da3); }
+.badge-purple { background: linear-gradient(135deg, var(--apple-purple), #7b2cb8); }
+.badge-orange { background: linear-gradient(135deg, var(--apple-orange), #d96800); }
+.badge-teal { background: linear-gradient(135deg, var(--apple-teal), #008299); }
+
+.bento-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.bento-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.bento-subtitle {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   CUSTOM ANIMATED DROPDOWNS (Apple Glass Popovers)
+   ========================================================================== */
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-container.open {
+  z-index: 1000;
+}
+
+.bento-card:has(.custom-select-container.open),
+.bento-card.dropdown-active {
+  z-index: 50;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  appearance: none;
+  background: rgba(0, 0, 0, 0.035);
+  border: 1px solid var(--border-subtle);
+  color: var(--apple-blue);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 6.5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  transition: all var(--anim-fast);
+}
+
+body.dark-theme .custom-select-trigger {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.custom-select-trigger:hover {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 113, 227, 0.35);
+}
+
+body.dark-theme .custom-select-trigger:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(41, 151, 255, 0.4);
+}
+
+.custom-select-container.open .custom-select-trigger {
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 3px var(--apple-blue-soft);
+}
+
+.trigger-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  text-align: left;
+}
+
+.select-chevron {
+  font-size: 10px;
+  color: var(--apple-blue);
+  pointer-events: none;
+  transition: transform var(--anim-bounce);
+  flex-shrink: 0;
+}
+
+.custom-select-container.open .select-chevron {
+  transform: rotate(180deg);
+}
+
+/* Floating Glass Popover Menu */
+.custom-select-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 6px); /* Opens upwards to avoid clipping inside the grid! */
+  z-index: 1000;
+  background: var(--glass-popover);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid var(--specular-border);
+  border-radius: 13px;
+  box-shadow: var(--shadow-popover);
+  padding: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px) scale(0.96);
+  transition: opacity 0.2s ease, transform 0.2s var(--ease-spring);
+}
+
+/* If placed high up, can open downward */
+.custom-select-container.open-down .custom-select-menu {
+  bottom: auto;
+  top: calc(100% + 6px);
+  transform: translateY(-8px) scale(0.96);
+}
+
+.custom-select-container.open .custom-select-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.custom-select-menu::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.custom-option {
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-option:hover {
+  background: var(--apple-blue-soft);
+  color: var(--apple-blue);
+}
+
+.custom-option.selected {
+  color: var(--apple-blue);
+  font-weight: 700;
+  background: rgba(0, 113, 227, 0.08);
+}
+
+body.dark-theme .custom-option.selected {
+  background: rgba(41, 151, 255, 0.16);
+}
+
+.custom-option.selected::after {
+  content: "✓";
+  font-weight: 800;
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+/* ==========================================================================
+   BENTO 2: iOS Switch (Fixed Sizing)
+   ========================================================================== */
+.ios-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+  margin-top: auto;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ios-toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.switch-state-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color var(--anim-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ios-toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ios-toggle-slider {
+  width: 46px;
+  height: 26px;
+  background: rgba(120, 120, 128, 0.22);
+  border-radius: var(--radius-pill);
+  position: relative;
+  transition: background-color 0.3s var(--ease-apple);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-theme .ios-toggle-slider {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.ios-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22), 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s var(--ease-spring), width 0.2s var(--ease-apple);
+}
+
+.ios-toggle-input:active + .ios-toggle-slider .ios-toggle-knob {
+  width: 26px;
+}
+
+.ios-toggle-input:checked + .ios-toggle-slider {
+  background: var(--apple-green);
+}
+
+.ios-toggle-input:checked + .ios-toggle-slider .ios-toggle-knob {
+  transform: translateX(20px);
+}
+
+/* ==========================================================================
+   Custom DNS Expansion
+   ========================================================================== */
+.custom-dns-expand {
+  margin-top: 8px;
+  transition: all var(--anim-fast);
+}
+
+.custom-dns-expand.hidden {
+  display: none;
+}
+
+.dns-inputs-flex {
+  display: flex;
+  gap: 6px;
+}
+
+.ios-input {
+  background: var(--glass-input-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 11px;
+  font-family: inherit;
+  padding: 5px 8px;
+  border-radius: 8px;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: border-color var(--anim-fast), box-shadow var(--anim-fast);
+}
+
+.ios-input:focus {
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 2.5px var(--apple-blue-soft);
+}
+
+.ip-field { flex: 1; }
+.port-field { width: 55px; }
+
+/* ==========================================================================
+   BENTO 4: Advanced Settings Drawer (Accordion)
+   ========================================================================== */
+.advanced-drawer-card {
+  padding: 9px 13px;
+  overflow: hidden;
+  transition: all var(--anim-smooth);
+}
+
+.advanced-drawer-card.expanded {
+  overflow: visible;
+}
+
+.advanced-arrow {
+  font-size: 11px;
+  color: var(--text-secondary);
+  transition: transform var(--anim-bounce);
+}
+
+.advanced-drawer-card.expanded .advanced-arrow {
+  transform: rotate(180deg);
+}
+
+.advanced-drawer-card .drawer-expandable {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s var(--ease-spring), opacity 0.2s ease, margin-top 0.2s ease;
+}
+
+.advanced-drawer-card.expanded .drawer-expandable {
+  max-height: 140px;
+  overflow: visible;
+  opacity: 1;
+  margin-top: 8px;
+}
+
+.advanced-setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* ==========================================================================
+   BENTO 5: Xcode Console Drawer (Spring Slide Sheet)
+   ========================================================================== */
+.terminal-drawer-card {
+  overflow: hidden;
+  padding: 9px 13px;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.drawer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawer-arrow-pill {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--anim-fast);
+}
+
+body.dark-theme .drawer-arrow-pill {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.drawer-header:hover .drawer-arrow-pill {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+body.dark-theme .drawer-header:hover .drawer-arrow-pill {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.terminal-arrow {
+  font-size: 11px;
+  color: var(--text-secondary);
+  transition: transform var(--anim-bounce);
+}
+
+.terminal-drawer-card.expanded .terminal-arrow {
+  transform: rotate(180deg);
+}
+
+.drawer-expandable {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s var(--ease-spring), opacity 0.2s ease, margin-top 0.2s ease;
+}
+
+.terminal-drawer-card.expanded .drawer-expandable {
+  max-height: 165px;
+  opacity: 1;
+  margin-top: 6px;
+}
+
+.drawer-content-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.mini-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.xcode-console-panel {
+  background: #fdfdfe;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+body.dark-theme .xcode-console-panel {
+  background: #0f1523;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.console-mac-bar {
+  background: #f1f2f6;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.dark-theme .console-mac-bar {
+  background: #151d2f;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.mac-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.mac-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.mac-dot.red { background: #ff5f57; }
+.mac-dot.yellow { background: #febc2e; }
+.mac-dot.green { background: #28c840; }
+
+.console-app-tag {
+  font-size: 10px;
+  font-family: "JetBrains Mono", Consolas, monospace;
+  color: var(--text-secondary);
+}
+
+.console-log-flow {
+  margin: 0;
+  padding: 6px 10px;
+  font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  font-size: 10.5px;
+  color: #334155;
+  line-height: 1.4;
+  max-height: 100px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+body.dark-theme .console-log-flow {
+  color: #94a3b8;
+}
+
+.console-log-flow::-webkit-scrollbar {
+  width: 4px;
+}
+
+.console-log-flow::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+
+body.dark-theme .console-log-flow::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ==========================================================================
+   Footer Status Bar
+   ========================================================================== */
+.app-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 2px 4px;
+  margin-top: auto;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.driver-status-cluster {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 2px 0;
+}
+
+.live-dot-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--apple-green);
+  box-shadow: 0 0 6px var(--apple-green);
+}
+
+.apple-clean-danger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--apple-red-soft);
+  border: 1px solid rgba(255, 59, 48, 0.16);
+  color: var(--apple-red);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all var(--anim-fast);
+}
+
+.apple-clean-danger-btn:hover {
+  background: rgba(255, 59, 48, 0.22);
+  border-color: rgba(255, 59, 48, 0.35);
+}
+
+.apple-clean-danger-btn:active {
+  transform: scale(0.96);
+}
+
+/* Screen reader utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ==========================================================================
+   Admin Permission Onboarding Modal
+   ========================================================================== */
+.admin-modal-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(10, 14, 22, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  animation: adminModalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes adminModalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.admin-modal-card {
+  width: 100%;
+  max-width: 390px;
+  background: var(--glass-card);
+  border: 1px solid var(--window-border);
+  box-shadow: 0 28px 60px -12px rgba(0, 0, 0, 0.55), 0 0 1px 1px var(--specular-border);
+  border-radius: 22px;
+  padding: 28px 24px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.admin-modal-badge {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.20) 0%, rgba(88, 86, 214, 0.15) 100%);
+  border: 1px solid rgba(0, 113, 227, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--apple-blue);
+}
+
+.admin-shield-halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 113, 227, 0.35) 0%, transparent 70%);
+  animation: haloPulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes haloPulse {
+  0%, 100% { transform: scale(0.95); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 0.9; }
+}
+
+.admin-modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.admin-modal-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.admin-modal-desc strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.admin-modal-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  background: var(--apple-blue-soft);
+  border: 1px solid rgba(0, 113, 227, 0.22);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  text-align: left;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.admin-modal-note .note-icon {
+  flex-shrink: 0;
+  color: var(--apple-blue);
+  margin-top: 1px;
+}
+
+.admin-modal-note strong {
+  color: var(--apple-blue);
+  font-weight: 700;
+}
+
+.admin-modal-error {
+  background: var(--apple-red-soft);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  color: var(--apple-red);
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.admin-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.admin-btn-secondary {
+  flex: 1;
+  height: 40px;
+  background: var(--glass-tile);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all var(--anim-fast);
+}
+
+.admin-btn-secondary:hover {
+  background: var(--glass-card-hover);
+  color: var(--text-primary);
+  border-color: var(--specular-border);
+}
+
+.admin-btn-secondary:active {
+  transform: scale(0.97);
+}
+
+.admin-btn-primary {
+  flex: 1.4;
+  height: 40px;
+  background: linear-gradient(135deg, #0077ed 0%, #0062c4 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 4px 14px rgba(0, 113, 227, 0.4);
+  transition: all var(--anim-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-btn-primary:hover {
+  background: linear-gradient(135deg, #1483f2 0%, #006bd6 100%);
+  box-shadow: 0 6px 20px rgba(0, 113, 227, 0.55);
+}
+
+.admin-btn-primary:active {
+  transform: scale(0.97);
+}
+
+.admin-btn-primary:disabled,
+.admin-btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+

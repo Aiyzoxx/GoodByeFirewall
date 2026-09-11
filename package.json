@@ -1,0 +1,62 @@
+{
+  "name": "goodbyefirewall",
+  "version": "2.0.0",
+  "description": "GoodByeFirewall - Modern DPI bypass and firewall circumvention client for Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "keywords": [
+    "goodbyedpi",
+    "censorship-circumvention",
+    "dpi-bypass",
+    "windivert",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "build": {
+    "appId": "com.goodbyefirewall.app",
+    "productName": "GoodByeFirewall",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/AppIcon.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "GoodByeFirewall",
+      "uninstallDisplayName": "GoodByeFirewall",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true
+    },
+    "extraResources": [
+      {
+        "from": "BinTools",
+        "to": "BinTools",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "files": [
+      "main.js",
+      "preload.js",
+      "config.json",
+      "setup-skip-uac.ps1",
+      "renderer/**/*",
+      "assets/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.3.0",
+    "electron-builder": "^26.15.3"
+  }
+}
