@@ -3,11 +3,9 @@
 # 🛡️ GoodByeFirewall
 
 ### Next-Generation Deep Packet Inspection (DPI) & Firewall Circumvention Client for Windows
-**Crafted with an Apple-inspired Bento Grid Glassmorphism UI, silent background system tray, and kernel-level WinDivert packet engine.**
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011%20(x64)-0078D6?style=flat-square&logo=windows)](https://github.com)
 [![Engine](https://img.shields.io/badge/Engine-GoodbyeDPI%20%2B%20WinDivert-0071e3?style=flat-square)](https://github.com/ValdikSS/GoodbyeDPI)
-[![UI](https://img.shields.io/badge/Design-Apple%20Bento%20Glass-34c759?style=flat-square)](https://github.com)
 [![License](https://img.shields.io/badge/License-MIT-orange?style=flat-square)](LICENSE)
 
 <br/>
