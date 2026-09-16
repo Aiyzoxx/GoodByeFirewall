@@ -1,6 +1,6 @@
 use std::fs;
 use std::io::{BufRead, BufReader};
-use std::net::TcpStream;
+use std::net::{TcpListener, TcpStream};
 use std::os::windows::process::CommandExt;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
@@ -91,7 +91,6 @@ fn build_argument_list(_app: &AppHandle, cfg: &BypassConfig) -> Vec<String> {
         "-5".to_string()
     });
 
-    // Reduces CPU overhead during high-bandwidth transfers (1G-8G)
     args.push("--max-payload".to_string());
     args.push("1200".to_string());
 
@@ -132,7 +131,7 @@ fn build_argument_list(_app: &AppHandle, cfg: &BypassConfig) -> Vec<String> {
             ]);
         }
         "fdn" => {
-            // French Data Network (FDN) DNS resolver
+            // FDN
             args.extend_from_slice(&[
                 "--dns-addr".to_string(),
                 "80.67.169.12".to_string(),
@@ -145,7 +144,7 @@ fn build_argument_list(_app: &AppHandle, cfg: &BypassConfig) -> Vec<String> {
             ]);
         }
         "adguard" => {
-            // AdGuard DNS resolver
+            // AdGuard
             args.extend_from_slice(&[
                 "--dns-addr".to_string(),
                 "94.140.14.14".to_string(),
@@ -299,7 +298,7 @@ fn configure_permanent_admin() {
     if let Ok(exe) = std::env::current_exe() {
         let exe_str = exe.to_string_lossy().to_string();
 
-        // Clear any RUNASADMIN registry flag to prevent forced UAC prompt on shortcut click
+        // Remove runasadmin compatibility flag
         let _ = Command::new("reg.exe")
             .args([
                 "delete",
@@ -311,24 +310,58 @@ fn configure_permanent_admin() {
             .creation_flags(CREATE_NO_WINDOW)
             .output();
 
-        // Create scheduled task to allow non-prompt elevated launches
-        let _ = Command::new("schtasks.exe")
+        // Scheduled task with battery support
+        let ps_cmd = format!(
+            "$action = New-ScheduledTaskAction -Execute '{}' -Argument '--no-task-elevate'; \
+             $principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Highest; \
+             $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Days 0); \
+             Register-ScheduledTask -TaskName 'GoodByeFirewall' -Action $action -Principal $principal -Settings $settings -Force",
+            exe_str.replace('\'', "''")
+        );
+
+        let ps_res = Command::new("powershell.exe")
             .args([
-                "/create",
-                "/tn",
-                "GoodByeFirewall",
-                "/tr",
-                &format!("\"{}\" --no-task-elevate", exe_str),
-                "/rl",
-                "HIGHEST",
-                "/sc",
-                "ONCE",
-                "/st",
-                "00:00",
-                "/f",
+                "-NoProfile",
+                "-NonInteractive",
+                "-WindowStyle",
+                "Hidden",
+                "-Command",
+                &ps_cmd,
             ])
             .creation_flags(CREATE_NO_WINDOW)
             .output();
+
+        if ps_res.is_err() || !ps_res.as_ref().map(|o| o.status.success()).unwrap_or(false) {
+            let _ = Command::new("schtasks.exe")
+                .args([
+                    "/create",
+                    "/tn",
+                    "GoodByeFirewall",
+                    "/tr",
+                    &format!("\"{}\" --no-task-elevate", exe_str),
+                    "/rl",
+                    "HIGHEST",
+                    "/sc",
+                    "ONCE",
+                    "/st",
+                    "00:00",
+                    "/f",
+                ])
+                .creation_flags(CREATE_NO_WINDOW)
+                .output();
+
+            let _ = Command::new("powershell.exe")
+                .args([
+                    "-NoProfile",
+                    "-NonInteractive",
+                    "-WindowStyle",
+                    "Hidden",
+                    "-Command",
+                    "$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries; Set-ScheduledTask -TaskName 'GoodByeFirewall' -Settings $s",
+                ])
+                .creation_flags(CREATE_NO_WINDOW)
+                .output();
+        }
     }
 }
 
@@ -340,19 +373,26 @@ fn try_elevate_from_task() -> bool {
 
     if !check_is_admin() {
         let query = Command::new("schtasks.exe")
-            .args(["/query", "/tn", "GoodByeFirewall"])
+            .args(["/query", "/tn", "GoodByeFirewall", "/v", "/fo", "LIST"])
             .creation_flags(CREATE_NO_WINDOW)
             .output();
 
         if let Ok(q) = query {
             if q.status.success() {
-                let run_res = Command::new("schtasks.exe")
-                    .args(["/run", "/tn", "GoodByeFirewall"])
-                    .creation_flags(CREATE_NO_WINDOW)
-                    .output();
-                if let Ok(r) = run_res {
-                    if r.status.success() {
-                        std::process::exit(0);
+                let out_str = String::from_utf8_lossy(&q.stdout);
+                if let Ok(current_exe) = std::env::current_exe() {
+                    let current_exe_str = current_exe.to_string_lossy();
+                    if out_str.to_lowercase().contains(&current_exe_str.to_lowercase()) {
+                        let run_res = Command::new("schtasks.exe")
+                            .args(["/run", "/tn", "GoodByeFirewall"])
+                            .creation_flags(CREATE_NO_WINDOW)
+                            .output();
+                        if let Ok(r) = run_res {
+                            if r.status.success() {
+                                std::thread::sleep(std::time::Duration::from_millis(300));
+                                std::process::exit(0);
+                            }
+                        }
                     }
                 }
             }
@@ -510,7 +550,6 @@ async fn start_bypass(
     if is_srv {
         let bin_path_val = format!("\"{}\" {}", exe_path.display(), args_string);
 
-        // Remove legacy service if present
         let _ = Command::new("sc.exe")
             .args(["stop", "GoodbyeDPI"])
             .creation_flags(CREATE_NO_WINDOW)
@@ -520,7 +559,6 @@ async fn start_bypass(
             .creation_flags(CREATE_NO_WINDOW)
             .output();
 
-        // Vérifier si le service GoodByeFirewall existe déjà sans le détruire
         let query_out = Command::new("sc.exe")
             .args(["query", "GoodByeFirewall"])
             .creation_flags(CREATE_NO_WINDOW)
@@ -534,7 +572,6 @@ async fn start_bypass(
             .unwrap_or(false);
 
         if service_exists {
-            // Update configuration in-place to avoid ERROR_SERVICE_MARKED_FOR_DELETE (1072)
             let cfg_res = Command::new("sc.exe")
                 .args([
                     "config",
@@ -555,7 +592,6 @@ async fn start_bypass(
                 }
             }
         } else {
-            // Première création du service
             let create_res = Command::new("sc.exe")
                 .args([
                     "create",
@@ -816,6 +852,11 @@ fn open_main_window(app: AppHandle) {
         let _ = main_w.show();
         let _ = main_w.unminimize();
         let _ = main_w.set_focus();
+        #[cfg(target_os = "windows")]
+        {
+            let _ = main_w.set_always_on_top(true);
+            let _ = main_w.set_always_on_top(false);
+        }
     }
 }
 
@@ -827,7 +868,25 @@ fn quit_app(app: AppHandle, state: tauri::State<AppState>) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // Launch elevated scheduled task if running un-elevated
+    // Single instance check
+    if let Ok(mut stream) = TcpStream::connect(("127.0.0.1", 38472)) {
+        use std::io::Write;
+        #[cfg(target_os = "windows")]
+        {
+            #[link(name = "user32")]
+            extern "system" {
+                fn AllowSetForegroundWindow(dwProcessId: u32) -> i32;
+            }
+            const ASFW_ANY: u32 = 0xFFFFFFFF;
+            unsafe {
+                AllowSetForegroundWindow(ASFW_ANY);
+            }
+        }
+        let _ = stream.write_all(b"SHOW\n");
+        let _ = stream.flush();
+        std::process::exit(0);
+    }
+
     try_elevate_from_task();
 
     tauri::Builder::default()
@@ -851,6 +910,25 @@ pub fn run() {
         .setup(|app| {
             if check_is_admin() {
                 configure_permanent_admin();
+            }
+
+            // Single instance listener
+            if let Ok(listener) = TcpListener::bind(("127.0.0.1", 38472)) {
+                let app_handle = app.handle().clone();
+                std::thread::spawn(move || {
+                    for stream in listener.incoming() {
+                        if let Ok(mut s) = stream {
+                            use std::io::Read;
+                            let _ = s.set_read_timeout(Some(std::time::Duration::from_millis(500)));
+                            let mut buf = [0u8; 16];
+                            if let Ok(n) = s.read(&mut buf) {
+                                if n > 0 && &buf[..n] == b"SHOW\n" {
+                                    open_main_window(app_handle.clone());
+                                }
+                            }
+                        }
+                    }
+                });
             }
 
             let state = app.state::<AppState>();
@@ -879,7 +957,7 @@ pub fn run() {
                                 return;
                             }
 
-                            // Anchor window position relative to taskbar and monitor scale
+                            // Calculate position anchored above the taskbar with DPI & monitor bounds
                             let size = tray_w.outer_size().unwrap_or(tauri::PhysicalSize::new(300, 280));
                             let scale = tray_w.scale_factor().unwrap_or(1.0);
                             let w = size.width as f64;
