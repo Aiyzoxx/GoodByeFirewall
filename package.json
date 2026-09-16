@@ -1,0 +1,26 @@
+{
+  "name": "goodbyefirewall",
+  "version": "2.0.0",
+  "description": "GoodByeFirewall - Modern DPI bypass and firewall circumvention client for Windows (Tauri v2)",
+  "private": true,
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "tauri": "tauri"
+  },
+  "keywords": [
+    "goodbyefirewall",
+    "censorship-circumvention",
+    "dpi-bypass",
+    "windivert",
+    "tauri"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "quick-liquid": "^0.1.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
+  }
+}

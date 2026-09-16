@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Rust / Tauri Build Outputs
+src-tauri/target/
+src-tauri/gen/schemas/
+dist/
+build/
+
+# Runtime Configuration & Local Caches
+config.json
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Root binaries and temporary files
+/*.exe
+*.blockmap
+*.bak
+
+# Preserve BinTools and required runtime DLLs
+!BinTools/**
+!WebView2Loader.dll
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+
+# IDE & Editor caches
+.vscode/
+.idea/
+.gemini/

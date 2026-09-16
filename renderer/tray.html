@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoodByeFirewall Tray</title>
+  <link rel="stylesheet" href="tray.css">
+</head>
+<body class="tray-body">
+  <div class="tray-container" id="trayContainer">
+        <div class="tray-header">
+      <div class="tray-brand">
+        <img src="assets/icon.png" alt="Logo" class="tray-logo" onerror="this.style.display='none'">
+        <div class="tray-title-group">
+          <span class="tray-app-name">GoodByeFirewall</span>
+          <span class="tray-version">v1.0.1</span>
+        </div>
+      </div>
+      <div class="tray-status-badge" id="trayStatusBadge">
+        <span class="status-dot"></span>
+        <span class="status-text" id="trayStatusText">Inactif</span>
+      </div>
+    </div>
+
+    <div class="tray-divider"></div>
+
+        <div class="tray-card">
+      <div class="card-info">
+        <div class="card-icon-wrap" id="cardIconWrap">
+          <svg class="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="card-text-wrap">
+          <div class="card-title">Protection Anti-DPI</div>
+          <div class="card-subtitle" id="cardSubtitle">Niveau 5 (Cloudflare)</div>
+        </div>
+      </div>
+      <label class="apple-switch" title="Activer / Désactiver">
+        <input type="checkbox" id="trayToggleSwitch">
+        <span class="switch-slider"></span>
+      </label>
+    </div>
+
+    <div class="tray-divider"></div>
+
+        <div class="tray-info-row">
+      <div class="row-left">
+        <svg class="row-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Mode d'exécution</span>
+      </div>
+      <span class="row-badge" id="trayModeBadge">Session Directe</span>
+    </div>
+
+    <div class="tray-divider"></div>
+
+        <div class="tray-menu-items">
+      <button class="tray-menu-item" id="btnOpenApp">
+        <div class="item-left">
+          <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <span>Ouvrir GoodByeFirewall</span>
+        </div>
+        <svg class="item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      <button class="tray-menu-item item-danger" id="btnQuitApp">
+        <div class="item-left">
+          <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/>
+            <line x1="12" y1="2" x2="12" y2="12"/>
+          </svg>
+          <span>Quitter l'application</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <script src="tray.js"></script>
+</body>
+</html>
