@@ -901,9 +901,12 @@ function triggerPowerBounce() {
   btnPower.classList.add('tactile-bounce');
 }
 
+let isTogglingPower = false;
+
 async function handlePowerToggle() {
+  if (isTogglingPower) return;
+  isTogglingPower = true;
   triggerPowerBounce();
-  btnPower.disabled = true;
   const dict = i18n[currentLang] || i18n.fr;
 
   try {
@@ -926,8 +929,7 @@ async function handlePowerToggle() {
   } catch (err) {
     appendLog(`[Exception] ${err.message}`);
   } finally {
-    btnPower.disabled = false;
-    triggerPowerBounce();
+    isTogglingPower = false;
   }
 }
 
